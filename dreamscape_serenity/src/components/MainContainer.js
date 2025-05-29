@@ -15,14 +15,22 @@ const DreamContext = createContext();
  * Main container for Dreamscape Serenity. Holds all core modules.
  * Manages dream entries and shares them with child components.
  */
+/**
+ * PUBLIC_INTERFACE
+ * Main container for Dreamscape Serenity. Holds all core modules.
+ * Manages dream entries and shares them with child components.
+ */
 function MainContainer() {
-  // State: An array of dream objects. Each dream should have at least { id, text, date, mood }
-  const [dreamEntries, setDreamEntries] = useState([
-    // Placeholder: Example dream entry
-    // { id: 1, text: "Flying over pastel mountains", date: new Date().toISOString(), mood: "peaceful" }
-  ]);
+  // State: Initialize from localStorage if exists
+  const [dreamEntries, setDreamEntries] = useState(() => loadDreamEntriesFromStorage());
 
-  // Placeholder function for adding dreams (to be implemented)
+  // Save dream entries whenever they change
+  useEffect(() => {
+    saveDreamEntriesToStorage(dreamEntries);
+  }, [dreamEntries]);
+
+  // PUBLIC_INTERFACE
+  /** Add a new dream to the list and persist */
   const addDream = (dream) => {
     setDreamEntries((prev) => [
       ...prev,

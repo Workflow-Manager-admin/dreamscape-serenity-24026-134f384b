@@ -10,11 +10,38 @@ import DreamArchive from "./DreamArchive";
  */
 const DreamContext = createContext();
 
+// Key for localStorage persistence
+const LOCAL_STORAGE_KEY = "dreamscape_serenity.dreams";
+
 /**
- * PUBLIC_INTERFACE
- * Main container for Dreamscape Serenity. Holds all core modules.
- * Manages dream entries and shares them with child components.
+ * Load dream entries from localStorage
+ * @returns {Array} Array of dream entries or empty array if none found.
  */
+function loadDreamEntriesFromStorage() {
+  try {
+    const saved = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!saved) return [];
+    const parsed = JSON.parse(saved);
+    if (Array.isArray(parsed)) return parsed;
+    return [];
+  } catch (e) {
+    console.warn("Failed to load dream entries:", e);
+    return [];
+  }
+}
+
+/**
+ * Save dream entries to localStorage
+ * @param {Array} dreams
+ */
+function saveDreamEntriesToStorage(dreams) {
+  try {
+    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dreams));
+  } catch (e) {
+    console.warn("Failed to save dream entries:", e);
+  }
+}
+
 /**
  * PUBLIC_INTERFACE
  * Main container for Dreamscape Serenity. Holds all core modules.
@@ -39,6 +66,7 @@ function MainContainer() {
   };
 
   // Placeholder function for analyzing dreams (visuals/mood)
+  // PUBLIC_INTERFACE
   const analyzeDreamMood = (dreamText) => {
     // TODO: analyze dream content and return a probable mood string (e.g. "peaceful", "anxious")
     return "peaceful";

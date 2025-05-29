@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import DreamLogger from "./DreamLogger";
 import DreamVisuals from "./DreamVisuals";
 import MoodSummary from "./MoodSummary";
